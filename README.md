@@ -36,6 +36,21 @@ Single run per utterance, offline (whole-file) mode, greedy decoding.
 | whisper.cpp | tiny.en | 3.85 % | 0.223 | 0.446 | 0.57 s | 1412 MB | realtime + headroom |
 | vosk | small-en-us-0.15 | 9.30 % | 0.133 | 0.193 | 0.24 s | 1619 MB | realtime + headroom |
 
+**What the columns mean**
+
+- **Engine** — the inference framework that runs the model (e.g. faster-whisper uses CTranslate2 under the hood; sherpa-onnx uses ONNX Runtime).
+- **Model** — the actual model weights. Same engine + different model often means very different accuracy and speed.
+- **WER** — Word Error Rate. Percentage of words the engine got wrong vs the reference transcript (after lowercasing and stripping punctuation). Lower is better. **1 %** means roughly one wrong word per hundred.
+- **RTF med** — Real-Time Factor, median across utterances. `compute_time / audio_duration`. **RTF 0.5** means transcribing 10 s of audio took 5 s. **Anything under 1.0 is realtime**; under 0.3 has comfortable headroom (you can also do other work, or fall behind briefly without losing the stream).
+- **RTF P95** — same thing but the 95th percentile — the slowest 1-in-20 utterance. This matters more than the median for streaming pipelines: if your P95 is over 1.0, you'll occasionally fall behind, even though the average is fine.
+- **Cold start** — seconds to load the model into memory and prepare it for the first transcription. A one-time cost per process — irrelevant for a long-running server, painful for a serverless / on-demand setup.
+- **Peak RSS** — Peak Resident Set Size: the most RAM the process held at any point, in megabytes. Tells you whether the engine fits on the VM you're considering. Bear in mind this includes Python + libraries, not just the model.
+- **Verdict** — a one-line summary of the RTF column, using these cutoffs:
+  - **realtime + headroom** — median RTF < 0.3
+  - **realtime, low headroom** — median RTF 0.3 – 1.0
+  - **borderline** — median < 1.0 but P95 ≥ 1.0 (i.e. sometimes slips)
+  - **slower than realtime** — median ≥ 1.0
+
 Open `benchmark/results/REPORT.html` for the styled version with per-utterance
 reference / hypothesis pairs.
 
