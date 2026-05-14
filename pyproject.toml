@@ -1,0 +1,37 @@
+[project]
+name = "stt-exe-benchmark"
+version = "0.1.0"
+description = "CPU-only STT bake-off + realtime POC on exe.dev VMs"
+requires-python = ">=3.11"
+dependencies = [
+    "jiwer>=3.0",
+    "numpy>=1.26",
+    "soundfile>=0.12",
+    "scipy>=1.13",
+    "psutil>=5.9",
+    "click>=8.1",
+    "datasets[audio]>=2.20",
+    "jinja2>=3.1",
+]
+
+[project.optional-dependencies]
+sherpa = ["sherpa-onnx>=1.10"]
+faster-whisper = ["faster-whisper>=1.0"]
+moonshine = ["useful-moonshine-onnx>=0.2.0", "onnxruntime>=1.18"]
+vosk = ["vosk>=0.3.45"]
+whispercpp = ["pywhispercpp>=1.2"]
+all = [
+    "sherpa-onnx>=1.10",
+    "faster-whisper>=1.0",
+    "useful-moonshine-onnx>=0.2.0",
+    "onnxruntime>=1.18",
+    "vosk>=0.3.45",
+    "pywhispercpp>=1.2",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["benchmark", "server"]
