@@ -4,14 +4,14 @@ version = "0.1.0"
 description = "CPU-only STT bake-off + realtime POC on exe.dev VMs"
 requires-python = ">=3.11"
 dependencies = [
-    "jiwer>=3.0",
-    "numpy>=1.26",
-    "soundfile>=0.12",
-    "scipy>=1.13",
-    "psutil>=5.9",
-    "click>=8.1",
-    "datasets[audio]>=2.20",
-    "jinja2>=3.1",
+    "jiwer==4.0.0",
+    "numpy==2.5.5",
+    "soundfile==0.14.0",
+    "scipy==1.18.1",
+    "psutil==7.2.2",
+    "click==8.5.1",
+    "datasets[audio]==5.2.0",
+    "jinja2==3.1.6",
 ]
 
 [project.optional-dependencies]
@@ -21,12 +21,12 @@ moonshine = ["useful-moonshine-onnx>=0.2.0", "onnxruntime>=1.18"]
 vosk = ["vosk>=0.3.45"]
 whispercpp = ["pywhispercpp>=1.2"]
 all = [
-    "sherpa-onnx>=1.10",
-    "faster-whisper>=1.0",
-    "useful-moonshine-onnx>=0.2.0",
-    "onnxruntime>=1.18",
-    "vosk>=0.3.45",
-    "pywhispercpp>=1.2",
+    "sherpa-onnx==2.0.3",
+    "faster-whisper==1.2.1",
+    "useful-moonshine-onnx==20251121",
+    "onnxruntime==1.32.0",
+    "vosk==0.3.45",
+    "pywhispercpp==1.5.1",
 ]
 
 [build-system]
